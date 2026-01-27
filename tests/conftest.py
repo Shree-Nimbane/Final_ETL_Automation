@@ -36,8 +36,8 @@ def spark_session(request):
 
     spark = configure_spark_with_delta_pip(builder).getOrCreate()
 
-    adls_account = os.getenv(f"{env}_ADLS_ACCOUNT")
-    adls_key = os.getenv(f"{env}_ADLS_KEY")
+    adls_account = os.getenv("AZURE_STORAGE_ACCOUNT")
+    adls_key = os.getenv("AZURE_STORAGE_KEY")
 
     if adls_account and adls_key:
         spark.conf.set(
