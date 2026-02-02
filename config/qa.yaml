@@ -1,2 +1,0 @@
-input_base_path: "abfss://test@decauto21.dfs.core.windows.net/raw"
-delta_base_path: "abfss://test@decauto21.dfs.core.windows.net/delta/"
