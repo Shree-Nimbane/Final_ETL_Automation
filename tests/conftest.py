@@ -13,6 +13,8 @@ def spark_session(request):
 
     builder = SparkSession.builder.appName("pytest_framework")
 
+
+
     if env == "local":
         taf_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -51,8 +53,9 @@ def spark_session(request):
     path = request.node.fspath.dirname
     request.cls.path = path
     request.cls.spark = spark
-    request.cls.path = path
 
     yield spark
 
     spark.stop()
+
+# print(os.getenv('env','local'))
