@@ -1,4 +1,4 @@
-
+from src.utility.report_lib import write_output
 
 class Data_Quantity:
     'testing some data quality'
@@ -24,8 +24,12 @@ class Data_Quantity:
             Status='FAIL'
             failed_recodes=only_in_source.limit(4).collect()
             failed_review=[row.asDict() for row in failed_recodes]
+            write_output(validation_type='recodes_only_in_source',status=Status,
+                         details=f"Count {count_in_source}, sample Failed records: {failed_review}")
         else:
             Status='PASS'
+            write_output(validation_type='recodes_only_in_source',status=Status,
+                         details=f"Count is matching between source and target. source count {count_in_source} ")
         return Status
 
 
@@ -37,6 +41,10 @@ class Data_Quantity:
             Status = 'FAIL'
             failed_recodes = only_in_target.limit(4).collect()
             failed_review = [row.asDict() for row in failed_recodes]
+            write_output(validation_type='recodes_only_in_target', status=Status,
+                         details=f"Count {count_in_target}, sample Failed records: {failed_review}")
         else:
             Status = 'PASS'
+            write_output(validation_type='recodes_only_in_target', status=Status,
+                         details=f"Count is matching between source and target. source count {count_in_target} ")
         return Status

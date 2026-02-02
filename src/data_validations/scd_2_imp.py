@@ -1,8 +1,8 @@
 from functools import reduce
 from pyspark.sql import functions as F
-import os
+from src.utility.env_config import delta_path
 from delta.tables import *
-# @pytest.mark.usefixtures('red_config', 'spark_session')
+
 
 class SCD_IMP:
 
@@ -16,7 +16,8 @@ class SCD_IMP:
         # C:\Users\shiva\PySpark_code\pycharmProject\oops_with_etl\spark-warehouse
         # target_path=(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         # target_path = f"./oops_with_etl/spark-warehouse/{TableName}"
-        current_path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        # f"abfss://test@decauto21.dfs.core.windows.net/raw/{TableName}
+        # current_path=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
         copy_df = source_df.select([F.col(c).alias("target_" + c) for c in source_df.columns])
         DeltaTable.createIfNotExists(spark) \
@@ -25,7 +26,7 @@ class SCD_IMP:
             .addColumn("active_status", "STRING") \
             .addColumn("start_date", "TIMESTAMP") \
             .addColumn("end_date", "TIMESTAMP") \
-            .location(f"abfss://test@decauto21.dfs.core.windows.net/raw/{TableName}")\
+            .location(delta_path(TableName))\
             .execute()
         table_inst = DeltaTable.forName(spark, TableName)
         target_df = table_inst.toDF().filter("active_status = 'Y'")

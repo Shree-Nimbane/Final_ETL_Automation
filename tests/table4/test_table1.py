@@ -10,7 +10,7 @@ class Test_Fitst_class(BaseClass):
 
     def test_count_check(self):
         source,target=self.read_data
-        # source.show(truncate=False)
+        source.show(truncate=False)
         data_quality_check=data_quantity.Data_Quantity(*self.read_data)
         status=data_quality_check.conunt_val()
         assert status == 'PASS'

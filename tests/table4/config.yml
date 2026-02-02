@@ -1,7 +1,8 @@
 source:
-  path: "customer_data//customer_data_04.csv"
-  type: "csv"
+  path: ["Complex.json","customer_data//Complex.json"]
+  type: "json"
   schema: "n"
+
   options:
     multiline: True
     delimiter: ","
@@ -9,11 +10,11 @@ source:
   exclude_cols: ["created_date","updated_date","hash_key","batch_id"]
 
 target:
-  path: "customer_data//customer_data_04.csv"
-  type: "csv"
+  path: ["Complex.json","customer_data//Complex.json"]
+  type: "json"
   schema: "n"
   options:
-    multiline: 'y'
+    multiline: True
     delimiter: ","
     header: True
   exclude_cols: [ "created_date","updated_date","hash_key","batch_id" ]

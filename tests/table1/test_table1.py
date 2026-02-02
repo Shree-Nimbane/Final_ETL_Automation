@@ -1,5 +1,5 @@
 from src.data_validations import data_quantity
-from src.utility.Base_Class import BaseClass
+from src.utility.general_utility import BaseClass
 from src.data_validations import scd_2_imp
 
 # target_path="C:/Users/Dinesh/spark-warehouse/pre_delta"
@@ -20,14 +20,20 @@ class Test_Fitst_class(BaseClass):
         only_source.recodes_only_in_source(key_columns=key_columns)
 
 
+    def test_only_in_target(self):
+        key_columns=self.read_yml['validations']['count_check']['key_columns']
+        only_source = data_quantity.Data_Quantity(*self.read_data)
+        only_source.recodes_only_in_target(key_columns=key_columns)
+
     def test_scd2_check(self):
         primary_keys = ["ID", "Depart"]  # change as per your table
         compare_columns = ["Fname", "Lname", "Salary", "City", "Blould"]
         spark = self.spark
         source,target=self.read_data
         scd_obj=scd_2_imp.SCD_IMP(source)
-        quality_check=scd_obj.scd_2(spark=spark,TableName='shri',primary_keys=primary_keys,compare_columns=compare_columns)
-        quality_check.show(truncate=False)
+        scd_obj.scd_2(spark=spark, TableName='shri_ram', primary_keys=primary_keys, compare_columns=compare_columns)
+        # quality_check=scd_obj.scd_2(spark=spark,TableName='shri',primary_keys=primary_keys,compare_columns=compare_columns)
+        # quality_check.show(truncate=False)
 
 
     # def test_scd_under_imp(self):
