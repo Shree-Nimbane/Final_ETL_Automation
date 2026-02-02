@@ -1,0 +1,2 @@
+input_base_path: "input_files"
+delta_base_path: "local_delta"
