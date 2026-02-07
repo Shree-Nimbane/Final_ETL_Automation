@@ -33,11 +33,11 @@ jobs:
         AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
         AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
         SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD}}
-        SNOWFLAKE_USER: ${{ variables.SNOWFLAKE_USER}}
-        SNOWFLAKE_DATABASE: ${{ variables.SNOWFLAKE_DATABASE}}
-        SNOWFLAKE_SCHEMA: ${{ variables.SNOWFLAKE_SCHEMA}}
-        SNOWFLAKE_TABLE: ${{ variables.SNOWFLAKE_TABLE}}
-        SNOWFLAKE_URL: ${{ variables.SNOWFLAKE_URL}}
-        SNOWFLAKE_DRIVER: ${{ variables.SNOWFLAKE_DRIVER}}
+        SNOWFLAKE_USER: ${{ vars.SNOWFLAKE_USER}}
+        SNOWFLAKE_DATABASE: ${{ vars.SNOWFLAKE_DATABASE}}
+        SNOWFLAKE_SCHEMA: ${{ vars.SNOWFLAKE_SCHEMA}}
+        SNOWFLAKE_TABLE: ${{ vars.SNOWFLAKE_TABLE}}
+        SNOWFLAKE_URL: ${{ vars.SNOWFLAKE_URL}}
+        SNOWFLAKE_DRIVER: ${{ vars.SNOWFLAKE_DRIVER}}
       run: python runner.py
 
