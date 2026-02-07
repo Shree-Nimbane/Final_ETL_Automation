@@ -29,6 +29,7 @@ class BaseClass:
         return value
 
     def read_db(self, config):
+        prefix = config['cred_lookup'].upper()
         def get_env(suffix):
             val = os.getenv(f"{prefix}_{suffix}")
             if val is None:
