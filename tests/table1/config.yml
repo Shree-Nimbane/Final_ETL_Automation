@@ -26,7 +26,7 @@ validations:
   null_check:
     null_columns: ["firstName","lastName","phoneNumbers_number","phoneNumbers_type"]
   uniqueness_check:
-    unique_columns: ["phoneNumbers_number","phoneNumbers_type"]
+    unique_columns: ["ID","Depart"]
   data_compare_check:
-    key_column: ["firstName","lastName","phoneNumbers_number","phoneNumbers_type"]
+    key_column: ["Fname","Lname","Salary","City","Blould"]
     num_records: 100
