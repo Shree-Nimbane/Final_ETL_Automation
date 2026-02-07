@@ -1,3 +1,5 @@
+from sys import prefix
+
 import pytest
 import json
 import os
@@ -27,17 +29,22 @@ class BaseClass:
         return value
 
     def read_db(self, config):
+        def get_env(suffix):
+            val = os.getenv(f"{prefix}_{suffix}")
+            if val is None:
+                raise ValueError(f"Missing environment variable: {prefix}_{suffix}")
+            return val
         spark = self.spark
         cred_lookup = config['cred_lookup']
         # in real time is it already connected?
         df = spark.read.format('jdbc'). \
-            option('url', os.getenv(f"{cred_lookup}_URL")). \
-            option('user', os.getenv(f"{cred_lookup}_USER")). \
-            option('password', os.getenv(f"{cred_lookup}_PASSWORD")). \
-            option('database', os.getenv(f"{cred_lookup}_DATABASE")). \
-            option('schema', os.getenv(f"{cred_lookup}_SCHEMA")). \
-            option('dbtable', os.getenv(f"{cred_lookup}_TABLE")). \
-            option('driver', os.getenv(f"{cred_lookup}_DRIVER")). \
+            option('url', get_env("URL")). \
+            option('user', get_env("USER")). \
+            option('password', get_env("PASSWORD")). \
+            option('database', get_env("DATABASE")). \
+            option('schema', get_env("SCHEMA")). \
+            option('dbtable', get_env("TABLE")). \
+            option('driver', get_env("DRIVER")). \
             load()
         return df
 
