@@ -11,7 +11,6 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-
 @pytest.fixture(scope="session")
 def spark_session(request):
 
