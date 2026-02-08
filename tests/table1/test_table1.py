@@ -1,39 +1,88 @@
+import pytest
+import logging
+
 from src.data_validations import data_quantity
 from src.utility.general_utility import BaseClass
 from src.data_validations import scd_2_imp
 
-# target_path="C:/Users/Dinesh/spark-warehouse/pre_delta"
-primary_keys=['ID','Depart']
-value_columns=['Fname','Lname','Salary','City','Blould']
-class Test_Fitst_class(BaseClass):
+logger = logging.getLogger(__name__)
 
 
-    def test_count_check(self):
-        data_quality_check=data_quantity.Data_Quantity(*self.read_data)
-        status=data_quality_check.conunt_val()
-        assert status == 'PASS'
+
+class Test_Emp_class(BaseClass):
 
 
-    def test_only_in_source(self):
-        key_columns=self.read_yml['validations']['count_check']['key_columns']
-        only_source = data_quantity.Data_Quantity(*self.read_data)
-        only_source.recodes_only_in_source(key_columns=key_columns)
+    def test_count_check(self, read_data):
+        logger.info("Starting count check test")
+
+        source_df, target_df = read_data
+
+        data_quality_check = data_quantity.Data_Quantity(
+            source_df,
+            target_df
+        )
+
+        status = data_quality_check.conunt_val()
+
+        logger.info(f"Count check status = {status}")
+
+        assert status == "PASS"
+
+    def test_only_in_source(self, read_data, read_yml):
+        logger.info("Starting only-in-source test")
+
+        source_df, target_df = read_data
+
+        key_columns = read_yml["validations"]["count_check"]["key_columns"]
+
+        dq = data_quantity.Data_Quantity(
+            source_df,
+            target_df
+        )
+
+        status=dq.recodes_only_in_source(key_columns=key_columns)
+        logger.info(f"Count check status = {status}")
+        assert  status=="PASS"
 
 
-    def test_only_in_target(self):
-        key_columns=self.read_yml['validations']['count_check']['key_columns']
-        only_source = data_quantity.Data_Quantity(*self.read_data)
-        only_source.recodes_only_in_target(key_columns=key_columns)
 
-    def test_scd2_check(self):
-        primary_keys = ["ID", "Depart"]  # change as per your table
-        compare_columns = ["Fname", "Lname", "Salary", "City", "Blould"]
+    def test_only_in_target(self, read_data, read_yml):
+        logger.info("Starting only-in-target test")
+
+        source_df, target_df = read_data
+
+        key_columns = read_yml["validations"]["count_check"]["key_columns"]
+
+        dq = data_quantity.Data_Quantity(
+            source_df,
+            target_df
+        )
+
+        status=dq.recodes_only_in_target(key_columns=key_columns)
+        logger.info(f"Count check status = {status}")
+        assert  status=="PASS"
+
+
+    def test_scd2_check(self,read_yml,read_data):
+        logger.info("Starting SCD2 validation")
+        primary_keys=read_yml["validations"]['uniqueness_check']['unique_columns']
+
+        compare_columns = read_yml["validations"]['data_compare_check']['key_column']
+
         spark = self.spark
-        source,target=self.read_data
-        scd_obj=scd_2_imp.SCD_IMP(source)
-        scd_obj.scd_2(spark=spark, TableName='shri_ram', primary_keys=primary_keys, compare_columns=compare_columns)
-        # quality_check=scd_obj.scd_2(spark=spark,TableName='shri',primary_keys=primary_keys,compare_columns=compare_columns)
-        # quality_check.show(truncate=False)
+        source, target = read_data
+
+        scd_obj = scd_2_imp.SCD_IMP(source)
+
+        scd_obj.scd_2(
+            spark=spark,
+            TableName="shri_ram",
+            primary_keys=primary_keys,
+            compare_columns=compare_columns,
+        )
+
+        logger.info("Completed SCD2 validation")
+
 
 
     # def test_scd_under_imp(self):
