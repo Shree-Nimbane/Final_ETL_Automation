@@ -85,7 +85,4 @@ def spark_session(request):
 @pytest.fixture(scope="class")
 def attach_spark(request, spark_session):
     request.cls.spark = spark_session
-
-@pytest.fixture(scope="class")
-def test_path(request):
     request.cls.path = request.node.fspath.dirname
