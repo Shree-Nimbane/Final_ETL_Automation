@@ -19,7 +19,6 @@ class Test_Fitst_class(BaseClass):
         logger.info(f"Count check status = {status}")
         assert status == 'PASS'
 
-
     # def test_only_in_source(self):
     #     key_columns=self.read_yml['validations']['count_check']['key_columns']
     #     only_source = data_quantity.Data_Quantity(*self.read_data)
